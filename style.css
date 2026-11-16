@@ -73,3 +73,5 @@ h2 {
 .desc { margin: 2px 0 0; color: var(--muted); font-size: .88rem; }
 .loading, .error { text-align: center; color: var(--muted); padding: 40px 0; }
 footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 24px 16px 40px; }
+.sold-out .name, .sold-out .desc { color: var(--muted); text-decoration: line-through; }
+.sold-out .price { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }

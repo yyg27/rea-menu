@@ -8,7 +8,8 @@ Google Sheets tablosunda ilk satır şu başlıklar olmalı:
 | Sıcak Kahveler | Latte | Espresso, süt | 120 | evet |
 
 - **fiyat**: sadece rakam yazarsanız sonuna otomatik ₺ eklenir (`120` → `120 ₺`).
-- **aktif**: `evet` yazan ürün görünür. Boş bırakılan ya da `hayır` yazan ürün gizlenir (stokta yoksa böyle kapatın).
+- **aktif**: boş ya da `evet` ise ürün normal görünür. Stokta yoksa `hayır` yazın: ürün menüde kalır ama fiyatın yerine **Kalmadı** yazar.
+- Başlıkları tablodaki gibi Türkçe harflerle yazın (`ürün`, `açıklama`); büyük/küçük harf fark etmez.
 - Ürün adı veya fiyatı boş olan satırlar gösterilmez.
 - Kategoriler tablodaki sırayla gösterilir.
 - Değişiklik birkaç dakika içinde menüye yansır (Google'ın yayın gecikmesi).

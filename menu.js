@@ -1,7 +1,7 @@
 // Google Sheets → Dosya → Paylaş → Web'de yayınla → CSV linki buraya. Boşsa sample.csv kullanılır.
 const SHEET_CSV_URL = "";
 const CACHE_KEY = "rea-menu-csv";
-const HIDDEN = ["", "hayır", "hayir", "0", "yok", "no", "false"];
+const SOLD_OUT = ["hayır", "hayir", "0", "yok", "no", "false"];
 
 export function parseCSV(text) {
   const rows = [];
@@ -34,13 +34,13 @@ export function toMenu(rows) {
   for (const r of rows.slice(1)) {
     const name = get(r, cU), price = get(r, cF);
     if (!name || !price) continue;
-    if (HIDDEN.includes(get(r, cAk).toLocaleLowerCase("tr"))) continue;
     const cat = get(r, cK) || "Diğer";
     if (!cats.has(cat)) cats.set(cat, []);
     cats.get(cat).push({
       name,
       desc: get(r, cA),
       price: /^[\d.,]+$/.test(price) ? price + " ₺" : price,
+      soldOut: SOLD_OUT.includes(get(r, cAk).toLocaleLowerCase("tr")),
     });
   }
   return [...cats].map(([name, items]) => ({ name, items }));
@@ -64,9 +64,9 @@ function render(menu) {
     sec.id = "k" + i;
     sec.append(el("h2", "", cat.name));
     for (const it of cat.items) {
-      const li = el("div", "item");
+      const li = el("div", it.soldOut ? "item sold-out" : "item");
       const row = el("div", "row");
-      row.append(el("span", "name", it.name), el("span", "dots"), el("span", "price", it.price));
+      row.append(el("span", "name", it.name), el("span", "dots"), el("span", "price", it.soldOut ? "Kalmadı" : it.price));
       li.append(row);
       if (it.desc) li.append(el("p", "desc", it.desc));
       sec.append(li);

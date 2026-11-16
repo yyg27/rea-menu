@@ -26,14 +26,18 @@ Kahve,Flat,,115,yok\r
 Kahve,Espresso,,85,EVET\r`;
 const menu = toMenu(parseCSV(csv));
 assert.deepEqual(menu.map(c => c.name), ["Kahve", "Tatlı"]);
+const it = (name, price, soldOut = false, desc = "") => ({ name, desc, price, soldOut });
 assert.deepEqual(menu[0].items, [
-  { name: "Latte", desc: "Süt, espresso", price: "120 ₺" },
-  { name: "Espresso", desc: "", price: "85 ₺" },
+  it("Latte", "120 ₺", false, "Süt, espresso"),
+  it("Mocha", "130 ₺", true),
+  it("Americano", "100 ₺"), // aktif boş → normal görünür
+  it("Filtre", "90 ₺", true),
+  it("Türk", "80 ₺", true),
+  it("Cortado", "110 ₺", true),
+  it("Flat", "115 ₺", true),
+  it("Espresso", "85 ₺"),
 ]);
-assert.deepEqual(menu[1].items, [
-  { name: "Cheesecake", desc: "", price: "150,50 ₺" },
-  { name: "Brownie", desc: "", price: "95 TL" },
-]);
+assert.deepEqual(menu[1].items, [it("Cheesecake", "150,50 ₺"), it("Brownie", "95 TL")]);
 assert.deepEqual(toMenu([]), []);
 
 console.log("ok");
