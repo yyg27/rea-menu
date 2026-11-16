@@ -40,4 +40,10 @@ assert.deepEqual(menu[0].items, [
 assert.deepEqual(menu[1].items, [it("Cheesecake", "150,50 ₺"), it("Brownie", "95 TL")]);
 assert.deepEqual(toMenu([]), []);
 
+// Başlıklar: Türkçe olmayan klavyeyle büyük harf (I), İ, Mac'ten gelen ayrık (NFD) harfler
+for (const head of ["KATEGORI,ÜRÜN,AÇIKLAMA,FIYAT,AKTIF", "KATEGORİ,ÜRÜN,AÇIKLAMA,FİYAT,AKTİF", "kategori,ürün,açıklama,fiyat,aktif".normalize("NFD")]) {
+  const m = toMenu(parseCSV(`${head}\nKahve,Latte,Sütlü,120,\nKahve,Mocha,,130,HAYIR`));
+  assert.deepEqual(m, [{ name: "Kahve", items: [it("Latte", "120 ₺", false, "Sütlü"), it("Mocha", "130 ₺", true)] }], head);
+}
+
 console.log("ok");

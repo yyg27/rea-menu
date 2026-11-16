@@ -1,7 +1,9 @@
 // Google Sheets → Dosya → Paylaş → Web'de yayınla → CSV linki buraya. Boşsa sample.csv kullanılır.
 const SHEET_CSV_URL = "";
 const CACHE_KEY = "rea-menu-csv";
-const SOLD_OUT = ["hayır", "hayir", "0", "yok", "no", "false"];
+const SOLD_OUT = ["hayir", "0", "yok", "no", "false"];
+// Karşılaştırma anahtarı: I/ı/İ/i farkını ve Mac'ten gelen ayrık (NFD) harfleri yok sayar
+const key = s => s.normalize("NFC").trim().toLowerCase().replace(/\u0307/g, "").replace(/ı/g, "i");
 
 export function parseCSV(text) {
   const rows = [];
@@ -26,9 +28,9 @@ export function parseCSV(text) {
 
 export function toMenu(rows) {
   if (!rows.length) return [];
-  const head = rows[0].map(h => h.trim().toLocaleLowerCase("tr"));
+  const head = rows[0].map(key);
   const col = name => head.indexOf(name);
-  const [cK, cU, cA, cF, cAk] = ["kategori", "ürün", "açıklama", "fiyat", "aktif"].map(col);
+  const [cK, cU, cA, cF, cAk] = ["kategori", "ürün", "açıklama", "fiyat", "aktif"].map(n => col(key(n)));
   const get = (r, c) => (c < 0 ? "" : (r[c] ?? "").trim());
   const cats = new Map();
   for (const r of rows.slice(1)) {
@@ -40,7 +42,7 @@ export function toMenu(rows) {
       name,
       desc: get(r, cA),
       price: /^[\d.,]+$/.test(price) ? price + " ₺" : price,
-      soldOut: SOLD_OUT.includes(get(r, cAk).toLocaleLowerCase("tr")),
+      soldOut: SOLD_OUT.includes(key(get(r, cAk))),
     });
   }
   return [...cats].map(([name, items]) => ({ name, items }));
@@ -82,7 +84,7 @@ function cache(op, val) {
 
 async function load() {
   try {
-    const res = await fetch(SHEET_CSV_URL || "sample.csv", { cache: "no-store" });
+    const res = await fetch(SHEET_CSV_URL || "sample.csv", { cache: "no-store", signal: AbortSignal.timeout(8000) });
     if (!res.ok) throw new Error(res.status);
     const text = await res.text();
     const menu = toMenu(parseCSV(text));
