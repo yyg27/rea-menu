@@ -1,0 +1,17 @@
+kategori,ürün,açıklama,fiyat,aktif
+Sıcak Kahveler,Espresso,Tek shot,85,evet
+Sıcak Kahveler,Americano,"Espresso, sıcak su",100,evet
+Sıcak Kahveler,Latte,"Espresso, buharda ısıtılmış süt",120,evet
+Sıcak Kahveler,Cappuccino,Bol köpüklü,120,evet
+Sıcak Kahveler,Türk Kahvesi,Lokum ile,80,evet
+Soğuk İçecekler,Iced Latte,,130,evet
+Soğuk İçecekler,Cold Brew,16 saat demlenmiş,140,evet
+Soğuk İçecekler,Limonata,Ev yapımı,90,evet
+Soğuk İçecekler,Frozen Çilek,,135,hayır
+Tatlılar,San Sebastian,Çikolata soslu,180,evet
+Tatlılar,Brownie,Dondurma ile,150,evet
+Tatlılar,Tiramisu,,160,evet
+Tatlılar,Sufle,15 dk hazırlık,155,evet
+Atıştırmalıklar,Tost,"Kaşarlı, sucuklu ya da karışık",140,evet
+Atıştırmalıklar,Kruvasan,Tereyağlı,95,evet
+Atıştırmalıklar,Granola Kase,"Yoğurt, mevsim meyvesi",145,evet
