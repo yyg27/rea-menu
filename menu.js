@@ -48,11 +48,38 @@ export function toMenu(rows) {
   return [...cats].map(([name, items]) => ({ name, items }));
 }
 
+// Basılı menü: ön yüzde logo var, o yüzden ön yüz toplamın ~%45'ine en yakın yerden bölünür
+export function splitPages(menu) {
+  if (menu.length < 2) return [menu, []];
+  const w = menu.map(c => c.items.length + 2); // +2: kategori başlığı
+  const target = w.reduce((a, b) => a + b) * 0.45;
+  let best = 1, bestDiff = Infinity, sum = 0;
+  for (let i = 1; i < menu.length; i++) {
+    sum += w[i - 1];
+    if (Math.abs(sum - target) < bestDiff) { best = i; bestDiff = Math.abs(sum - target); }
+  }
+  return [menu.slice(0, best), menu.slice(best)];
+}
+
 function el(tag, cls, text) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
   if (text) e.textContent = text; // textContent: Sheets içeriği HTML olarak çalışmasın
   return e;
+}
+
+export function section(cat) {
+  const sec = el("section");
+  sec.append(el("h2", "", cat.name));
+  for (const it of cat.items) {
+    const li = el("div", it.soldOut ? "item sold-out" : "item");
+    const row = el("div", "row");
+    row.append(el("span", "name", it.name), el("span", "dots"), el("span", "price", it.soldOut ? "Kalmadı" : it.price));
+    li.append(row);
+    if (it.desc) li.append(el("p", "desc", it.desc));
+    sec.append(li);
+  }
+  return sec;
 }
 
 function render(menu) {
@@ -62,17 +89,8 @@ function render(menu) {
     const a = el("a", "", cat.name);
     a.href = "#k" + i;
     nav.append(a);
-    const sec = el("section");
+    const sec = section(cat);
     sec.id = "k" + i;
-    sec.append(el("h2", "", cat.name));
-    for (const it of cat.items) {
-      const li = el("div", it.soldOut ? "item sold-out" : "item");
-      const row = el("div", "row");
-      row.append(el("span", "name", it.name), el("span", "dots"), el("span", "price", it.soldOut ? "Kalmadı" : it.price));
-      li.append(row);
-      if (it.desc) li.append(el("p", "desc", it.desc));
-      sec.append(li);
-    }
     main.append(sec);
   });
 }
@@ -82,7 +100,8 @@ function cache(op, val) {
   catch { return null; }
 }
 
-async function load() {
+// Sheets → olmazsa son kaydedilen menü → o da yoksa null
+export async function getMenu() {
   try {
     const res = await fetch(SHEET_CSV_URL || "sample.csv", { cache: "no-store", signal: AbortSignal.timeout(8000) });
     if (!res.ok) throw new Error(res.status);
@@ -90,12 +109,17 @@ async function load() {
     const menu = toMenu(parseCSV(text));
     if (!menu.length) throw new Error("boş menü"); // yayından kalkmış/bozuk tablo
     cache("set", text);
-    return render(menu);
+    return menu;
   } catch {
     const old = cache("get");
-    if (old) return render(toMenu(parseCSV(old)));
-    document.getElementById("menu").replaceChildren(el("p", "error", "Menü şu an yüklenemedi, lütfen biraz sonra tekrar deneyin."));
+    return old ? toMenu(parseCSV(old)) : null;
   }
 }
 
-if (typeof document !== "undefined") load();
+async function load() {
+  const menu = await getMenu();
+  if (menu) return render(menu);
+  document.getElementById("menu").replaceChildren(el("p", "error", "Menü şu an yüklenemedi, lütfen biraz sonra tekrar deneyin."));
+}
+
+if (typeof document !== "undefined" && document.getElementById("tabs")) load();

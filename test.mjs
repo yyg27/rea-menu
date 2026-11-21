@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { parseCSV, toMenu } from "./menu.js";
+import { parseCSV, toMenu, splitPages } from "./menu.js";
 
 // parseCSV
 assert.deepEqual(parseCSV('a,b\n1,2'), [["a", "b"], ["1", "2"]]);
@@ -45,5 +45,14 @@ for (const head of ["KATEGORI,ÜRÜN,AÇIKLAMA,FIYAT,AKTIF", "KATEGORİ,ÜRÜN,A
   const m = toMenu(parseCSV(`${head}\nKahve,Latte,Sütlü,120,\nKahve,Mocha,,130,HAYIR`));
   assert.deepEqual(m, [{ name: "Kahve", items: [it("Latte", "120 ₺", false, "Sütlü"), it("Mocha", "130 ₺", true)] }], head);
 }
+
+// splitPages: ön yüzde logo olduğu için ön yüze daha az kategori; sıra korunur, her yüzde en az bir kategori
+const cat = (name, n) => ({ name, items: Array(n).fill(it("x", "1 ₺")) });
+const names = pages => pages.map(p => p.map(c => c.name));
+assert.deepEqual(names(splitPages([cat("A", 5), cat("B", 3), cat("C", 4), cat("D", 3)])), [["A", "B"], ["C", "D"]]);
+assert.deepEqual(names(splitPages([cat("A", 20), cat("B", 2)])), [["A"], ["B"]]);
+assert.deepEqual(names(splitPages([cat("A", 2), cat("B", 2), cat("C", 20)])), [["A", "B"], ["C"]]);
+assert.deepEqual(names(splitPages([cat("A", 3)])), [["A"], []]);
+assert.deepEqual(names(splitPages([])), [[], []]);
 
 console.log("ok");

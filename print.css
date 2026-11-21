@@ -1,0 +1,56 @@
+@page { size: A4; margin: 0; }
+
+body { background: #e9e4e2; }
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+.toolbar { max-width: 210mm; margin: 16px auto; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: .9rem; color: var(--muted); }
+.toolbar button { padding: 10px 18px; border: 0; border-radius: 999px; background: var(--red); color: #fff; font: 600 1rem Inter, sans-serif; cursor: pointer; }
+#warn { flex-basis: 100%; margin: 0; color: var(--red-dark); font-weight: 600; }
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 16px;
+  background: var(--bg);
+  box-shadow: 0 2px 12px rgb(0 0 0 / .15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.band { background: var(--red); padding: 16mm 0 12mm; flex: none; }
+.band .logo { width: 70mm; font-size: 4.2mm; }
+.band .garden { font-size: 8.5mm; margin-top: 5mm; }
+.band .coffee { font-size: 5.5mm; margin-top: 2.5mm; gap: 4mm; }
+.band.slim { padding: 7mm 0; }
+.band.slim img { display: block; width: 26mm; height: auto; margin: 0 auto; }
+
+.cols {
+  flex: 1;
+  min-height: 0;
+  columns: 2;
+  column-gap: 14mm;
+  column-fill: balance;
+  padding: 12mm 16mm;
+  font-size: 3.6mm;
+}
+.cols section { break-inside: avoid; padding-top: 0; margin-bottom: 8mm; }
+.cols h2 { font-size: 7mm; margin-bottom: 2mm; }
+.cols .item { padding: 2.2mm 0; break-inside: avoid; }
+.cols .desc { font-size: 3mm; }
+
+.back footer {
+  flex: none;
+  margin: 0 16mm;
+  padding: 5mm 0 8mm;
+  border-top: .4mm solid var(--red);
+  font-size: 3mm;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media print {
+  body { background: none; }
+  .toolbar { display: none; }
+  .page { margin: 0; box-shadow: none; break-after: page; }
+}

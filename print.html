@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REA Garden Coffee · Menü (A4)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="print.css">
+</head>
+<body>
+<div class="toolbar">
+  <button onclick="print()">Yazdır / PDF kaydet</button>
+  <span>A4, arkalı önlü. Yazdırırken "Arka plan grafikleri" açık olsun.</span>
+  <p id="warn" hidden></p>
+</div>
+
+<div class="page front">
+  <header class="band">
+    <h1 class="logo">
+      <img src="rea.svg" alt="REA" width="1182" height="650">
+      <span class="garden">Garden</span>
+      <span class="coffee">Coffee</span>
+    </h1>
+  </header>
+  <div class="cols" id="front"></div>
+</div>
+
+<div class="page back">
+  <header class="band slim"><img src="rea.svg" alt="REA" width="1182" height="650"></header>
+  <div class="cols" id="back"></div>
+  <footer>Fiyatlarımıza KDV dahildir.</footer>
+</div>
+
+<script type="module">
+import { getMenu, splitPages, section } from "./menu.js";
+
+const menu = await getMenu();
+const warn = document.getElementById("warn");
+if (!menu) {
+  warn.hidden = false;
+  warn.textContent = "Menü yüklenemedi.";
+} else {
+  // Basılı menü uzun süre kullanılır; "kalmadı" geçici olduğu için fiyat basılır
+  const printable = menu.map(c => ({ ...c, items: c.items.map(i => ({ ...i, soldOut: false })) }));
+  splitPages(printable).forEach((cats, p) => document.getElementById(p ? "back" : "front").append(...cats.map(section)));
+  await document.fonts.ready;
+  // shortcut: sığmayan menü kırpılır ve sadece uyarılır, font otomatik küçülmez; ürün sayısı çok artarsa 3 sütuna geçilir
+  const over = [...document.querySelectorAll(".cols")].filter(c => c.scrollHeight > c.clientHeight + 1 || c.scrollWidth > c.clientWidth + 1);
+  if (over.length) {
+    warn.hidden = false;
+    warn.textContent = "Dikkat: menü A4'e sığmıyor, bazı ürünler kesilecek.";
+  }
+}
+</script>
+</body>
+</html>
