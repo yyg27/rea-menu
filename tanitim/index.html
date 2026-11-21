@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>REA Garden Coffee · QR Menü Tanıtımı</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 landscape; margin: 0; }
+:root { --red: #c8102e; --red-dark: #9e0c24; --ink: #2a1a1c; --muted: #7a6a6c; --bg: #fffdfb; --line: #ecdcdc; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; background: #ddd; color: var(--ink); font: 4mm/1.5 Inter, sans-serif; }
+.page { width: 297mm; height: 210mm; margin: 0 auto 10mm; background: var(--bg); position: relative; overflow: hidden; display: flex; break-after: page; }
+@media print { body { background: none; } .page { margin: 0; } }
+
+h2 { font: 700 11mm/1.1 Fraunces, Georgia, serif; color: var(--red); margin: 0 0 6mm; }
+.kicker { font: 600 3.2mm Inter; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin: 0 0 3mm; }
+.lead { font-size: 4.6mm; color: var(--ink); margin: 0 0 8mm; max-width: 120mm; }
+ul.points { list-style: none; padding: 0; margin: 0; display: grid; gap: 5mm; }
+ul.points li { padding-left: 9mm; position: relative; }
+ul.points li::before { content: ""; position: absolute; left: 0; top: 1.6mm; width: 4mm; height: 4mm; border-radius: 50%; background: var(--red); }
+ul.points b { display: block; font-weight: 600; }
+ul.points span { color: var(--muted); font-size: 3.7mm; }
+.text { flex: 1; min-width: 0; padding: 22mm 18mm 18mm 22mm; display: flex; flex-direction: column; justify-content: center; }
+.visual { display: flex; align-items: center; justify-content: center; gap: 10mm; padding: 14mm 22mm 14mm 0; }
+.pageno { position: absolute; right: 12mm; bottom: 8mm; font-size: 3mm; color: var(--muted); }
+.note { position: absolute; left: 22mm; bottom: 8mm; font-size: 3mm; color: var(--muted); }
+
+/* telefon çerçevesi */
+.phone { width: 62mm; aspect-ratio: 390 / 844; border: 2.6mm solid #1d1416; border-radius: 9mm; overflow: hidden; background: #000; box-shadow: 0 4mm 10mm rgb(0 0 0 / .18); }
+.phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.phone.tilt { transform: rotate(4deg) translateY(6mm); }
+
+/* kapak */
+.cover { background: var(--red); color: #fff; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.cover .logo { width: 88mm; color: #3b2a28; font: 600 5mm/1 Cinzel, serif; text-transform: uppercase; }
+.cover .logo img { display: block; width: 100%; }
+.cover .logo span { display: flex; align-items: center; justify-content: center; letter-spacing: .3em; margin-right: -.3em; }
+.cover .garden { font-size: 10.5mm; margin-top: 6mm; }
+.cover .coffee { font-size: 6.8mm; margin-top: 3mm; gap: 4mm; }
+.cover .coffee::before, .cover .coffee::after { content: ""; flex: 1; border-top: .6mm solid; }
+.cover h1 { font: 700 13mm/1 Fraunces, serif; margin: 16mm 0 4mm; }
+.cover p { margin: 0; font-size: 5mm; opacity: .92; }
+
+/* sheets tablosu */
+.sheet { width: 128mm; background: #fff; border: .3mm solid #c9c9c9; border-radius: 2mm; overflow: hidden; font-size: 3.3mm; box-shadow: 0 3mm 8mm rgb(0 0 0 / .1); }
+.sheet .bar { background: #188038; color: #fff; padding: 2.5mm 4mm; font-weight: 600; font-size: 3.2mm; }
+.sheet table { border-collapse: collapse; width: 100%; }
+.sheet th, .sheet td { border: .2mm solid #e0e0e0; padding: 1.8mm 2.5mm; text-align: left; white-space: nowrap; }
+.sheet th { background: #f3f3f3; font-weight: 600; color: #444; }
+.sheet .hl td { background: #fde9ec; }
+.sheet .hl td.edit { outline: .6mm solid var(--red); outline-offset: -.6mm; font-weight: 600; }
+.arrow { font: 700 12mm Fraunces; color: var(--red); }
+
+/* basılı menü */
+.paper { width: 74mm; box-shadow: 0 3mm 9mm rgb(0 0 0 / .18); display: block; }
+.paper + .paper { margin-left: -14mm; transform: translateY(10mm); }
+
+/* adımlar */
+ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 7mm 12mm; }
+ol.steps li { counter-increment: s; padding: 6mm 6mm 6mm 18mm; position: relative; background: #fff; border: .3mm solid var(--line); border-radius: 3mm; }
+ol.steps li::before { content: counter(s); position: absolute; left: 5mm; top: 5mm; width: 9mm; height: 9mm; border-radius: 50%; background: var(--red); color: #fff; font: 700 5mm/9mm Fraunces; text-align: center; }
+ol.steps b { display: block; }
+ol.steps span { color: var(--muted); font-size: 3.6mm; }
+</style>
+</head>
+<body>
+
+<!-- 1. Kapak -->
+<section class="page cover">
+  <div class="logo">
+    <img src="../rea.svg" alt="REA">
+    <span class="garden">Garden</span>
+    <span class="coffee">Coffee</span>
+  </div>
+  <h1>QR Menü</h1>
+  <p>Masadaki kodu okutun, menü telefonda açılsın.</p>
+</section>
+
+<!-- 2. Müşteri ne görür -->
+<section class="page">
+  <div class="text">
+    <p class="kicker">Müşteri ne görür</p>
+    <h2>Kafenin kendi menüsü,<br>telefonda</h2>
+    <p class="lead">Masadaki QR kodu okutan müşteri, REA'nın renkleri ve logosuyla hazırlanmış menüyü anında görür.</p>
+    <ul class="points">
+      <li><b>Uygulama indirmek gerekmez</b><span>Her telefonun kamerasıyla açılır, saniyeler içinde yüklenir.</span></li>
+      <li><b>Kategoriler tek dokunuşla</b><span>Üstteki butonlarla kahvelere, tatlılara, atıştırmalıklara geçilir.</span></li>
+      <li><b>Biten ürün "Kalmadı" olarak görünür</b><span>Müşteri sipariş vermeden önce bilir, garsona sormak gerekmez.</span></li>
+    </ul>
+  </div>
+  <div class="visual">
+    <div class="phone"><img src="img/phone-top.png" alt=""></div>
+    <div class="phone tilt"><img src="img/phone-soldout.png" alt=""></div>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<!-- 3. Siz güncellersiniz -->
+<section class="page">
+  <div class="text" style="flex: 0 0 150mm">
+    <p class="kicker">Menüyü siz yönetirsiniz</p>
+    <h2>Fiyat değişti mi?<br>Tabloda düzeltin, bitti.</h2>
+    <p class="lead">Menü bir Google Sheets tablosundan okunur. Telefonunuzdan ya da bilgisayardan değiştirdiğiniz her şey birkaç dakika içinde QR menüye yansır.</p>
+    <ul class="points">
+      <li><b>Kimseyi aramanıza gerek yok</b><span>Yeni ürün, yeni fiyat, yeni kategori: hepsi tablodan.</span></li>
+      <li><b>Ürün bitince "hayır" yazın</b><span>Menüde kalır, yanında "Kalmadı" yazar. Gelince "evet" yaparsınız.</span></li>
+      <li><b>Ek sunucu ya da uygulama gerekmez</b><span>Menü ücretsiz altyapıda çalışır, barındırma masrafı çıkmaz.</span></li>
+    </ul>
+  </div>
+  <div class="visual" style="flex: 1; flex-direction: column; gap: 6mm">
+    <div class="sheet">
+      <div class="bar">REA Menü · Google Sheets</div>
+      <table>
+        <tr><th>kategori</th><th>ürün</th><th>fiyat</th><th>aktif</th></tr>
+        <tr><td>Sıcak Kahveler</td><td>Latte</td><td>120</td><td>evet</td></tr>
+        <tr><td>Soğuk İçecekler</td><td>Cold Brew</td><td>140</td><td>evet</td></tr>
+        <tr class="hl"><td>Soğuk İçecekler</td><td>Frozen Çilek</td><td>135</td><td class="edit">hayır</td></tr>
+        <tr><td>Tatlılar</td><td>San Sebastian</td><td>180</td><td>evet</td></tr>
+      </table>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="sheet" style="width: 90mm; font-size: 3.6mm">
+      <table>
+        <tr><td style="color:var(--muted);text-decoration:line-through;border:0;padding:3mm 4mm">Frozen Çilek</td><td style="text-align:right;color:var(--muted);letter-spacing:.05em;border:0;padding:3mm 4mm;font-weight:600">KALMADI</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="pageno">3</p>
+</section>
+
+<!-- 4. Basılı menü -->
+<section class="page">
+  <div class="text">
+    <p class="kicker">Bonus</p>
+    <h2>Basılı menü de hazır</h2>
+    <p class="lead">Aynı tablodan, arkalı önlü A4 menü. Fiyat değiştiğinde yenisini tek tuşla yazdırırsınız.</p>
+    <ul class="points">
+      <li><b>QR'ı okutmak istemeyen müşteriler için</b><span>Masada ya da kasada durur.</span></li>
+      <li><b>Her zaman güncel</b><span>Ayrı bir dosyayı elle düzenlemek yok, içerik tablodan gelir.</span></li>
+      <li><b>Matbaaya da gönderilebilir</b><span>PDF olarak kaydedilir.</span></li>
+    </ul>
+  </div>
+  <div class="visual">
+    <img class="paper" src="img/print-front.png" alt="Ön yüz">
+    <img class="paper" src="img/print-back.png" alt="Arka yüz">
+  </div>
+  <p class="pageno">4</p>
+</section>
+
+<!-- 5. Sonraki adımlar -->
+<section class="page">
+  <div class="text" style="padding-right: 22mm">
+    <p class="kicker">Başlamak için</p>
+    <h2>Sizden istediklerimiz</h2>
+    <ol class="steps">
+      <li><b>Güncel menü</b><span>Ürünler, fiyatlar ve kategoriler. Menünün fotoğrafı da yeterli.</span></li>
+      <li><b>Logo dosyası</b><span>Varsa orijinal hali (PDF, SVG ya da yüksek çözünürlüklü PNG).</span></li>
+      <li><b>Bir Google hesabı</b><span>Menü tablosu sizin hesabınızda açılır, kontrol tamamen sizde kalır.</span></li>
+      <li><b>Masalar için QR kodlar</b><span>Menü yayına girince QR kodları baskıya hazır olarak teslim ederiz.</span></li>
+    </ol>
+  </div>
+  <p class="note">Görsellerdeki ürün ve fiyatlar örnektir.</p>
+  <p class="pageno">5</p>
+</section>
+
+</body>
+</html>
