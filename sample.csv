@@ -1,17 +1,41 @@
 kategori,ürün,açıklama,fiyat,aktif
-Sıcak Kahveler,Espresso,Tek shot,85,evet
-Sıcak Kahveler,Americano,"Espresso, sıcak su",100,evet
-Sıcak Kahveler,Latte,"Espresso, buharda ısıtılmış süt",120,evet
-Sıcak Kahveler,Cappuccino,Bol köpüklü,120,evet
-Sıcak Kahveler,Türk Kahvesi,Lokum ile,80,evet
-Soğuk İçecekler,Iced Latte,,130,evet
-Soğuk İçecekler,Cold Brew,16 saat demlenmiş,140,evet
-Soğuk İçecekler,Limonata,Ev yapımı,90,evet
-Soğuk İçecekler,Frozen Çilek,,135,hayır
-Tatlılar,San Sebastian,Çikolata soslu,180,evet
-Tatlılar,Brownie,Dondurma ile,150,evet
-Tatlılar,Tiramisu,,160,evet
-Tatlılar,Sufle,15 dk hazırlık,155,evet
-Atıştırmalıklar,Tost,"Kaşarlı, sucuklu ya da karışık",140,evet
-Atıştırmalıklar,Kruvasan,Tereyağlı,95,evet
-Atıştırmalıklar,Granola Kase,"Yoğurt, mevsim meyvesi",145,evet
+Sıcak Kahveler,Espresso,Tek shot,95,evet
+Sıcak Kahveler,Double Espresso,,120,evet
+Sıcak Kahveler,Americano,"Espresso, sıcak su",130,evet
+Sıcak Kahveler,Latte,"Espresso, buharda ısıtılmış süt",150,evet
+Sıcak Kahveler,Cappuccino,Bol köpüklü,150,evet
+Sıcak Kahveler,Flat White,Çift shot ristretto,160,evet
+Sıcak Kahveler,Mocha,"Espresso, çikolata, süt",165,evet
+Sıcak Kahveler,Caramel Macchiato,,170,evet
+Sıcak Kahveler,Türk Kahvesi,Lokum ile,110,evet
+Sıcak Kahveler,Filtre Kahve,Günün çekirdeği,125,evet
+Soğuk İçecekler,Iced Americano,,140,evet
+Soğuk İçecekler,Iced Latte,,160,evet
+Soğuk İçecekler,Cold Brew,16 saat demlenmiş,170,evet
+Soğuk İçecekler,Iced Mocha,,175,evet
+Soğuk İçecekler,Ev Yapımı Limonata,Taze nane ile,120,evet
+Soğuk İçecekler,Frozen Çilek,,165,hayır
+Soğuk İçecekler,Frozen Mango,,165,evet
+Soğuk İçecekler,Milkshake,"Çikolata, çilek ya da vanilya",180,evet
+Çaylar,Demleme Çay,İnce belli bardakta,45,evet
+Çaylar,Fincan Çay,,70,evet
+Çaylar,Yeşil Çay,,90,evet
+Çaylar,Bitki Çayı,"Ihlamur, adaçayı ya da papatya",95,evet
+Çaylar,Sıcak Çikolata,Krema ile,150,evet
+Tatlılar,San Sebastian,Çikolata soslu,210,evet
+Tatlılar,Limonlu Cheesecake,Bahçemizin limonlarıyla,200,evet
+Tatlılar,Brownie,Dondurma ile,180,evet
+Tatlılar,Tiramisu,,190,evet
+Tatlılar,Sufle,15 dk hazırlık,185,evet
+Tatlılar,Mozaik Pasta,,140,evet
+Kahvaltı,Serpme Kahvaltı (2 kişilik),"Peynirler, zeytin, reçeller, yumurta, sınırsız çay",850,evet
+Kahvaltı,Kahvaltı Tabağı,,380,evet
+Kahvaltı,Menemen,,220,evet
+Kahvaltı,Avokadolu Tost Ekmek,"Ekşi maya ekmek, poşe yumurta",260,evet
+Kahvaltı,Pancake,"Mevsim meyvesi, akçaağaç şurubu",240,evet
+Atıştırmalıklar,Karışık Tost,"Kaşar, sucuk",190,evet
+Atıştırmalıklar,Kaşarlı Tost,,160,evet
+Atıştırmalıklar,Kruvasan,Tereyağlı,120,evet
+Atıştırmalıklar,Hindi Füme Sandviç,"Ciabatta, cheddar, roka",240,evet
+Atıştırmalıklar,Granola Kase,"Yoğurt, mevsim meyvesi, bal",210,evet
+Atıştırmalıklar,Patates Kızartması,,150,evet
