@@ -1,6 +1,6 @@
 :root {
-  --red: #c8102e;
-  --red-dark: #9e0c24;
+  --red: #cf4b3b; /* afişten ölçüldü */
+  --red-dark: #a63a2d;
   --ink: #2a1a1c;
   --muted: #7a6a6c;
   --bg: #fffdfb;
@@ -20,18 +20,8 @@ header {
   text-align: center;
   padding: 36px 16px 28px;
 }
-header h1 {
-  margin: 0;
-  font: 700 3.2rem/1 Fraunces, Georgia, serif;
-  letter-spacing: .12em;
-}
-header p {
-  margin: 6px 0 0;
-  font-size: .8rem;
-  letter-spacing: .4em;
-  text-transform: uppercase;
-  opacity: .9;
-}
+header h1 { margin: 0; }
+header img { display: block; width: min(240px, 70%); height: auto; margin: 0 auto; }
 nav {
   position: sticky;
   top: 0;
