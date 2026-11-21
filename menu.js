@@ -48,6 +48,37 @@ export function toMenu(rows) {
   return [...cats].map(([name, items]) => ({ name, items }));
 }
 
+// Kategori adına göre ikon; sıra önemli: "Soğuk Kahveler" kahveden önce soğuk olarak yakalanmalı
+const ICON_WORDS = [
+  ["glass", ["soğuk", "ice", "frozen", "limonata", "smoothie", "milkshake", "frappe", "cold", "meşrubat"]],
+  ["cake", ["tatli", "pasta", "kek", "dessert", "cheesecake", "kurabiye"]],
+  ["food", ["atiştirmalik", "tost", "sandvi", "kahvalti", "yemek", "snack", "burger", "salata", "makarna", "börek"]],
+  ["tea", ["çay", "tea", "bitki"]],
+  ["cup", ["kahve", "coffee", "espresso", "sicak", "latte"]],
+];
+// Sabit, güvenilir SVG'ler (Sheets içeriği değil), innerHTML ile basılabilir
+const ICONS = {
+  cup: '<path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c-.8 1 .8 2 0 3M12 3c-.8 1 .8 2 0 3"/><path d="M3 21h14"/>',
+  glass: '<path d="M6 7h12l-1.5 13a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1z"/><path d="M14 7l2-5h2.5"/><path d="M6.8 13h10.4"/>',
+  cake: '<path d="M3 20h18v-7L3 9z"/><path d="M3 13l18 4"/><path d="M8 7.5c0-1.5 1-2.5 2-3 .3 1 .2 2-.4 3.2"/>',
+  food: '<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 4-3 8h3"/>',
+  tea: '<path d="M5 8h11v4a5.5 5.5 0 0 1-11 0z"/><path d="M16 9h1.5a2 2 0 0 1 0 4H15.5"/><path d="M3 20h15"/><path d="M10.5 3c1.5 1 1.5 3 0 4-1.5-1-1.5-3 0-4z"/>',
+  leaf: '<path d="M5 19c0-9 5-14 15-15-1 10-6 15-15 15z"/><path d="M5 19l8-8"/>',
+};
+function icon(name) {
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("viewBox", "0 0 24 24");
+  s.setAttribute("class", "icon");
+  s.setAttribute("aria-hidden", "true");
+  s.innerHTML = ICONS[iconFor(name)];
+  return s;
+}
+
+export function iconFor(name) {
+  const k = key(name);
+  return ICON_WORDS.find(([, words]) => words.some(w => k.includes(w)))?.[0] ?? "leaf";
+}
+
 // Basılı menü: ön yüzde logo var, o yüzden ön yüz toplamın ~%45'ine en yakın yerden bölünür
 export function splitPages(menu) {
   if (menu.length < 2) return [menu, []];
@@ -70,7 +101,9 @@ function el(tag, cls, text) {
 
 export function section(cat) {
   const sec = el("section");
-  sec.append(el("h2", "", cat.name));
+  const h2 = el("h2");
+  h2.append(icon(cat.name), el("span", "", cat.name));
+  sec.append(h2);
   for (const it of cat.items) {
     const li = el("div", it.soldOut ? "item sold-out" : "item");
     const row = el("div", "row");
@@ -93,6 +126,22 @@ function render(menu) {
     sec.id = "k" + i;
     main.append(sec);
   });
+  // Kaydırırken o an okunan kategorinin butonu dolu kırmızı olur
+  const links = [...nav.children], secs = [...main.children];
+  let current = -1;
+  const update = () => {
+    const line = nav.getBoundingClientRect().bottom + 24;
+    let i = secs.findLastIndex(s => s.getBoundingClientRect().top <= line);
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) i = secs.length - 1; // en alttaki kısa kategori de seçilebilsin
+    i = Math.max(i, 0);
+    if (i === current) return;
+    links[current]?.classList.remove("active");
+    links[i].classList.add("active");
+    nav.scrollTo({ left: links[i].offsetLeft - 16, behavior: "smooth" });
+    current = i;
+  };
+  addEventListener("scroll", update, { passive: true });
+  update();
 }
 
 function cache(op, val) {

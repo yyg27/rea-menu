@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { parseCSV, toMenu, splitPages } from "./menu.js";
+import { parseCSV, toMenu, splitPages, iconFor } from "./menu.js";
 
 // parseCSV
 assert.deepEqual(parseCSV('a,b\n1,2'), [["a", "b"], ["1", "2"]]);
@@ -54,5 +54,12 @@ assert.deepEqual(names(splitPages([cat("A", 20), cat("B", 2)])), [["A"], ["B"]])
 assert.deepEqual(names(splitPages([cat("A", 2), cat("B", 2), cat("C", 20)])), [["A", "B"], ["C"]]);
 assert.deepEqual(names(splitPages([cat("A", 3)])), [["A"], []]);
 assert.deepEqual(names(splitPages([])), [[], []]);
+
+// iconFor: kategori adından ikon; soğuk önce kontrol edilir ("Soğuk Kahveler" bardak olmalı)
+for (const [name, icon] of [
+  ["Sıcak Kahveler", "cup"], ["Soğuk İçecekler", "glass"], ["SOĞUK KAHVELER", "glass"], ["Frozen", "glass"],
+  ["Tatlılar", "cake"], ["Atıştırmalıklar", "food"], ["ATIŞTIRMALIKLAR", "food"], ["Tost & Sandviç", "food"],
+  ["Çaylar", "tea"], ["Espresso Bazlı", "cup"], ["Diğer", "leaf"],
+]) assert.equal(iconFor(name), icon, name);
 
 console.log("ok");
