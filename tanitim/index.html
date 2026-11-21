@@ -26,9 +26,14 @@ ul.points span { color: var(--muted); font-size: 3.7mm; }
 .note { position: absolute; left: 22mm; bottom: 8mm; font-size: 3mm; color: var(--muted); }
 
 /* telefon çerçevesi */
-.phone { width: 62mm; aspect-ratio: 390 / 844; border: 2.6mm solid #1d1416; border-radius: 9mm; overflow: hidden; background: #000; box-shadow: 0 4mm 10mm rgb(0 0 0 / .18); }
-.phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.phone.tilt { transform: rotate(4deg) translateY(6mm); }
+.phone { position: relative; width: 62mm; aspect-ratio: 390 / 844; border: 1.6mm solid #1d1416; border-radius: 10mm; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; box-shadow: 0 0 0 .5mm #4a3d3f, 0 6mm 14mm rgb(0 0 0 / .22); }
+.phone::before { content: ""; position: absolute; top: 1.7mm; left: 50%; translate: -50% 0; width: 17mm; height: 4.6mm; border-radius: 3mm; background: #000; z-index: 1; }
+.phone .status { flex: none; height: 8mm; display: flex; justify-content: space-between; align-items: center; padding: 0 6.5mm; font: 600 2.7mm Inter, sans-serif; background: var(--red); color: #fff; }
+.phone .status.light { background: var(--bg); color: var(--ink); }
+.phone .bat { display: inline-block; width: 5mm; height: 2.4mm; border: .3mm solid currentColor; border-radius: .7mm; box-shadow: inset 0 0 0 .3mm var(--red), inset 4mm 0 0 currentColor; vertical-align: middle; }
+.phone .status.light .bat { box-shadow: inset 0 0 0 .3mm var(--bg), inset 4mm 0 0 currentColor; }
+.phone img { flex: 1; min-height: 0; display: block; width: 100%; object-fit: cover; object-position: top; }
+.phone.lower { transform: translateY(12mm); }
 
 /* kapak */
 .cover { background: var(--red); color: #fff; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
@@ -89,8 +94,8 @@ ol.steps span { color: var(--muted); font-size: 3.6mm; }
     </ul>
   </div>
   <div class="visual">
-    <div class="phone"><img src="img/phone-top.png" alt=""></div>
-    <div class="phone tilt"><img src="img/phone-soldout.png" alt=""></div>
+    <div class="phone"><div class="status"><span>9:41</span><i class="bat"></i></div><img src="img/phone-top.png" alt=""></div>
+    <div class="phone lower"><div class="status light"><span>9:41</span><i class="bat"></i></div><img src="img/phone-soldout.png" alt=""></div>
   </div>
   <p class="pageno">2</p>
 </section>
