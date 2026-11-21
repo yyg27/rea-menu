@@ -16,9 +16,21 @@ body { background: #e9e4e2; }
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
+/* Afişin alt kısmındaki gibi düz inen ince çizgi demetleri, kenar boşluğunda */
+.page::before, .page::after {
+  content: "";
+  position: absolute;
+  width: 8.3mm;
+  background: repeating-linear-gradient(90deg, var(--red) 0 .3mm, transparent .3mm 1.6mm);
+}
+.front::before { left: 4mm; bottom: 0; height: 60mm; }
+.front::after { right: 4mm; bottom: 0; height: 28mm; }
+.back::before { left: 4mm; top: 0; height: 90mm; }
+.back::after { right: 4mm; bottom: 0; height: 60mm; }
 
-.band { background: var(--red); padding: 16mm 0 12mm; flex: none; }
+.band { background: url(deco.svg) center / 100% 100% no-repeat, var(--red); padding: 18mm 0 14mm; flex: none; }
 .band .logo { width: 70mm; font-size: 4.2mm; }
 .band .garden { font-size: 8.5mm; margin-top: 5mm; }
 .band .coffee { font-size: 5.5mm; margin-top: 2.5mm; gap: 4mm; }

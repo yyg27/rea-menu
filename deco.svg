@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 100" preserveAspectRatio="none" fill="none" stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke">
+  <!-- Afişteki gibi: aşağıdan çıkıp yukarıda kıvrılan ince çizgi demetleri -->
+  <g stroke-opacity=".85">
+    <path vector-effect="non-scaling-stroke" d="M14 100V46C14 24 30 10 52 0"/>
+    <path vector-effect="non-scaling-stroke" d="M17 100V47C17 26 32 12 55 0"/>
+    <path vector-effect="non-scaling-stroke" d="M20 100V48C20 28 34 14 58 0"/>
+    <path vector-effect="non-scaling-stroke" d="M23 100V49C23 30 36 16 61 0"/>
+    <path vector-effect="non-scaling-stroke" d="M26 100V50C26 32 38 18 64 0"/>
+    <path vector-effect="non-scaling-stroke" d="M36 100V62C36 40 48 22 70 0"/>
+    <path vector-effect="non-scaling-stroke" d="M196 100V46C196 24 180 10 158 0"/>
+    <path vector-effect="non-scaling-stroke" d="M193 100V47C193 26 178 12 155 0"/>
+    <path vector-effect="non-scaling-stroke" d="M190 100V48C190 28 176 14 152 0"/>
+    <path vector-effect="non-scaling-stroke" d="M187 100V49C187 30 174 16 149 0"/>
+    <path vector-effect="non-scaling-stroke" d="M184 100V50C184 32 172 18 146 0"/>
+    <path vector-effect="non-scaling-stroke" d="M174 100V62C174 40 162 22 140 0"/>
+  </g>
+</svg>

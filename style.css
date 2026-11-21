@@ -15,7 +15,7 @@ body {
   font: 16px/1.45 Inter, system-ui, sans-serif;
 }
 header {
-  background: var(--red);
+  background: url(deco.svg) center / 100% 100% no-repeat, var(--red);
   color: #fff;
   text-align: center;
   padding: 22px 16px 18px;
