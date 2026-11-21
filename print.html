@@ -6,7 +6,7 @@
 <title>REA Garden Coffee · Menü</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="print.css">
 </head>
@@ -18,6 +18,9 @@
 </div>
 
 <div class="page front">
+  <svg class="lines" viewBox="0 0 210 297" aria-hidden="true"
+       data-white="0,13 36,13 36,33 50,33 50,92 | 210,74 176,74 176,52 164,52 164,0"
+       data-red="210,281 128,281 128,297"></svg>
   <header class="band">
     <h1 class="logo">
       <img src="rea.svg" alt="REA" width="1182" height="650">
@@ -29,6 +32,9 @@
 </div>
 
 <div class="page back">
+  <svg class="lines" viewBox="0 0 210 297" aria-hidden="true"
+       data-white="0,12 80,12 | 210,12 130,12"
+       data-red="6,28 6,112 0,112 | 0,272 210,272"></svg>
   <header class="band slim"><img src="rea.svg" alt="REA" width="1182" height="650"></header>
   <div class="cols" id="back"></div>
   <footer>Fiyatlarımıza KDV dahildir.</footer>
@@ -36,6 +42,38 @@
 
 <script type="module">
 import { getMenu, splitPages, section } from "./menu.js";
+
+// Markadaki çizgi demetleri: dik açılı rota (mm), 5 paralel çizgi, yuvarlak köşe
+function bundle(pts, n = 5, gap = 1.3, r = 3) {
+  const seg = pts.slice(1).map((p, i) => [pts[i], p]);
+  const paths = [];
+  for (let k = 0; k < n; k++) {
+    const d = k * gap;
+    // her parça kendi sol normaline göre kaydırılır; köşe = yatay parçanın y'si + dikey parçanın x'i
+    const off = seg.map(([a, b]) => a[1] === b[1] ? { y: a[1] - Math.sign(b[0] - a[0]) * d } : { x: a[0] + Math.sign(b[1] - a[1]) * d });
+    const q = pts.map((p, i) => {
+      const o = [off[i - 1], off[i]].filter(Boolean);
+      return [o.find(v => "x" in v)?.x ?? p[0], o.find(v => "y" in v)?.y ?? p[1]];
+    });
+    let path = `M${q[0]}`;
+    for (let i = 1; i < q.length - 1; i++) {
+      const [a, c, b] = [q[i - 1], q[i], q[i + 1]];
+      const to = (from, t) => [c[0] + Math.sign(from[0] - c[0]) * t, c[1] + Math.sign(from[1] - c[1]) * t];
+      path += `L${to(a, r)}Q${c} ${to(b, r)}`;
+    }
+    paths.push(path + `L${q.at(-1)}`);
+  }
+  return paths;
+}
+for (const svg of document.querySelectorAll("svg.lines"))
+  for (const color of ["white", "red"])
+    for (const route of (svg.dataset[color] || "").split("|").filter(r => r.trim()))
+      for (const d of bundle(route.trim().split(" ").map(p => p.split(",").map(Number)))) {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d);
+        path.setAttribute("class", color);
+        svg.append(path);
+      }
 
 const menu = await getMenu();
 const warn = document.getElementById("warn");
@@ -45,7 +83,10 @@ if (!menu) {
 } else {
   // Basılı menü uzun süre kullanılır; "kalmadı" geçici olduğu için fiyat basılır
   const printable = menu.map(c => ({ ...c, items: c.items.map(i => ({ ...i, soldOut: false })) }));
-  splitPages(printable).forEach((cats, p) => document.getElementById(p ? "back" : "front").append(...cats.map(section)));
+  splitPages(printable).forEach((cats, p) => {
+    const cols = splitPages(cats, 0.5).map(part => { const c = document.createElement("div"); c.className = "col"; c.append(...part.map(section)); return c; });
+    document.getElementById(p ? "back" : "front").append(...cols);
+  });
   await document.fonts.ready;
   // shortcut: sığmayan menü kırpılır ve sadece uyarılır, font otomatik küçülmez; ürün sayısı çok artarsa 3 sütuna geçilir
   const over = [...document.querySelectorAll(".cols")].filter(c => c.scrollHeight > c.clientHeight + 1 || c.scrollWidth > c.clientWidth + 1);

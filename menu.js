@@ -79,11 +79,11 @@ export function iconFor(name) {
   return ICON_WORDS.find(([, words]) => words.some(w => k.includes(w)))?.[0] ?? "leaf";
 }
 
-// Basılı menü: ön yüzde logo var, o yüzden ön yüz toplamın ~%45'ine en yakın yerden bölünür
-export function splitPages(menu) {
+// Kategorileri sırayı bozmadan ikiye böler; ön/arka yüz için 0.45 (ön yüzde logo var), sütunlar için 0.5
+export function splitPages(menu, share = 0.45) {
   if (menu.length < 2) return [menu, []];
   const w = menu.map(c => c.items.length + 2); // +2: kategori başlığı
-  const target = w.reduce((a, b) => a + b) * 0.45;
+  const target = w.reduce((a, b) => a + b) * share;
   let best = 1, bestDiff = Infinity, sum = 0;
   for (let i = 1; i < menu.length; i++) {
     sum += w[i - 1];

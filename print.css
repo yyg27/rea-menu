@@ -16,34 +16,40 @@ body { background: #e9e4e2; }
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
+.lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; fill: none; stroke-width: .35; }
+.lines .white { stroke: #fff; }
+.lines .red { stroke: var(--red); }
 
-.band { background: var(--red); padding: 16mm 0 12mm; flex: none; }
+.band { background: var(--red); height: 92mm; flex: none; display: flex; align-items: center; }
 .band .logo { width: 70mm; font-size: 4.2mm; }
 .band .garden { font-size: 8.5mm; margin-top: 5mm; }
 .band .coffee { font-size: 5.5mm; margin-top: 2.5mm; gap: 4mm; }
-.band.slim { padding: 7mm 0; }
+.band.slim { height: 28mm; justify-content: center; }
 .band.slim img { display: block; width: 26mm; height: auto; margin: 0 auto; }
 
 .cols {
   flex: 1;
   min-height: 0;
-  columns: 2;
-  column-gap: 14mm;
-  column-fill: balance;
+  display: flex;
+  gap: 14mm;
   padding: 12mm 16mm;
   font-size: 3.6mm;
 }
-.cols section { break-inside: avoid; padding-top: 0; margin-bottom: 8mm; }
-.cols h2 { font-size: 7mm; margin-bottom: 2mm; }
-.cols .item { padding: 2.2mm 0; break-inside: avoid; }
+.front .cols { padding-bottom: 24mm; }
+.col { flex: 1; min-width: 0; }
+.cols section { padding-top: 0; margin-bottom: 8mm; }
+.cols h2 { font: 600 4.4mm/1 Montserrat, sans-serif; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 3mm; }
+.cols h2::after { content: ""; flex: 1; border-top: .35mm solid; margin-left: 1mm; }
+.cols h2 .icon { width: 5.4mm; height: 5.4mm; }
+.cols .item { padding: 2.2mm 0; }
 .cols .desc { font-size: 3mm; }
 
 .back footer {
   flex: none;
   margin: 0 16mm;
-  padding: 5mm 0 8mm;
-  border-top: .4mm solid var(--red);
+  padding: 6mm 0 9mm;
   font-size: 3mm;
   text-align: center;
   color: var(--muted);

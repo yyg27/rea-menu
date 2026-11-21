@@ -54,6 +54,8 @@ assert.deepEqual(names(splitPages([cat("A", 20), cat("B", 2)])), [["A"], ["B"]])
 assert.deepEqual(names(splitPages([cat("A", 2), cat("B", 2), cat("C", 20)])), [["A", "B"], ["C"]]);
 assert.deepEqual(names(splitPages([cat("A", 3)])), [["A"], []]);
 assert.deepEqual(names(splitPages([])), [[], []]);
+// Sütunlar için yarı yarıya: Tatlılar(4) | Atıştırmalıklar(3) Çaylar(4) Kahvaltı(4) uzun sütuna kaymasın
+assert.deepEqual(names(splitPages([cat("T", 8), cat("A", 7), cat("Ç", 4), cat("K", 4)], 0.5)), [["T", "A"], ["Ç", "K"]]);
 
 // iconFor: kategori adından ikon; soğuk önce kontrol edilir ("Soğuk Kahveler" bardak olmalı)
 for (const [name, icon] of [
