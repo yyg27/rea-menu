@@ -15,8 +15,8 @@ Google Sheets tablosunda ilk satır şu başlıklar olmalı:
 - Değişiklik birkaç dakika içinde menüye yansır (Google'ın yayın gecikmesi).
 - ⚠️ Bu tablo herkese açık yayınlanır, içine menü dışında bilgi yazmayın.
 
-## A4 menü (çıktı / PDF)
-`print.html` sayfasını açıp **Yazdır / PDF kaydet**'e basın. Ön ve arka yüzlü A4 çıkar, içerik aynı Sheets tablosundan gelir. Yazdırırken "Arka plan grafikleri" seçeneği açık olmalı, yoksa kırmızı bant basılmaz. Menü sayfaya sığmazsa sayfanın üstünde uyarı çıkar.
+## Menü çıktısı (PDF)
+`print.html` sayfasını açıp **Yazdır / PDF kaydet**'e basın. Ön ve arka yüzlü çıkar, içerik aynı Sheets tablosundan gelir. Yazdırırken "Arka plan grafikleri" seçeneği açık olmalı, yoksa kırmızı bant basılmaz. Menü sayfaya sığmazsa sayfanın üstünde uyarı çıkar.
 
 Komut satırından: `chromium --headless --no-pdf-header-footer --virtual-time-budget=8000 --print-to-pdf=menu.pdf http://localhost:8000/print.html`
 
