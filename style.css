@@ -20,8 +20,12 @@ header {
   text-align: center;
   padding: 36px 16px 28px;
 }
-header h1 { margin: 0; }
-header img { display: block; width: min(240px, 70%); height: auto; margin: 0 auto; }
+.logo { width: min(260px, 75%); margin: 0 auto; color: #3b2a28; font: 600 1rem/1 Cinzel, Georgia, serif; text-transform: uppercase; }
+.logo img { display: block; width: 100%; height: auto; }
+.logo span { display: flex; align-items: center; justify-content: center; letter-spacing: .3em; margin-right: -.3em; }
+.garden { font-size: 2rem; margin-top: 14px; }
+.coffee { font-size: 1.3rem; margin-top: 6px; gap: 10px; }
+.coffee::before, .coffee::after { content: ""; flex: 1; border-top: 2px solid; }
 nav {
   position: sticky;
   top: 0;
