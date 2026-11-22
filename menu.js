@@ -1,5 +1,7 @@
 // Google Sheets → Dosya → Paylaş → Web'de yayınla → CSV linki buraya. Boşsa sample.csv kullanılır.
 const SHEET_CSV_URL = "";
+// Aynı tablonun normal (düzenleme) linki; yönetim sayfasındaki "Menüyü düzenle" butonu buna gider
+export const SHEET_EDIT_URL = "";
 const CACHE_KEY = "rea-menu-csv";
 const SOLD_OUT = ["hayir", "0", "yok", "no", "false"];
 // Karşılaştırma anahtarı: I/ı/İ/i farkını ve Mac'ten gelen ayrık (NFD) harfleri yok sayar
