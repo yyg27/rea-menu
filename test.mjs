@@ -64,4 +64,5 @@ for (const [name, icon] of [
   ["Çaylar", "tea"], ["Espresso Bazlı", "cup"], ["Diğer", "leaf"],
 ]) assert.equal(iconFor(name), icon, name);
 
+await import("./test-admin.mjs");
 console.log("ok");

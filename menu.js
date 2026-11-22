@@ -1,11 +1,13 @@
 // Google Sheets → Dosya → Paylaş → Web'de yayınla → CSV linki buraya. Boşsa sample.csv kullanılır.
 const SHEET_CSV_URL = "";
-// Aynı tablonun normal (düzenleme) linki; yönetim sayfasındaki "Menüyü düzenle" butonu buna gider
-export const SHEET_EDIT_URL = "";
+// Tabloya bağlı Apps Script'in web uygulaması linki (apps-script/Code.gs). Boşsa yönetim paneli demo modunda açılır.
+export const ADMIN_API_URL = "";
 const CACHE_KEY = "rea-menu-csv";
 const SOLD_OUT = ["hayir", "0", "yok", "no", "false"];
 // Karşılaştırma anahtarı: I/ı/İ/i farkını ve Mac'ten gelen ayrık (NFD) harfleri yok sayar
-const key = s => s.normalize("NFC").trim().toLowerCase().replace(/\u0307/g, "").replace(/ı/g, "i");
+export const key = s => s.normalize("NFC").trim().toLowerCase().replace(/\u0307/g, "").replace(/ı/g, "i");
+
+export const isSoldOut = v => SOLD_OUT.includes(key(v));
 
 export function parseCSV(text) {
   const rows = [];
@@ -44,7 +46,7 @@ export function toMenu(rows) {
       name,
       desc: get(r, cA),
       price: /^[\d.,]+$/.test(price) ? price + " ₺" : price,
-      soldOut: SOLD_OUT.includes(key(get(r, cAk))),
+      soldOut: isSoldOut(get(r, cAk)),
     });
   }
   return [...cats].map(([name, items]) => ({ name, items }));

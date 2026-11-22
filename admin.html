@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>REA · Menü Düzenle</title>
+<meta name="theme-color" content="#c8102e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  [hidden] { display: none !important; }
+  header { padding: 16px; }
+  header .logo { width: min(110px, 35%); }
+  header .title { margin: 8px 0 0; font: 600 .75rem Montserrat, sans-serif; letter-spacing: .3em; text-transform: uppercase; }
+  main { padding-bottom: 110px; }
+  #demo { margin: 16px 0 0; padding: 10px 14px; border-radius: 10px; background: #fff4d6; font-size: .9rem; }
+  #login { max-width: 360px; margin: 40px auto; display: grid; gap: 10px; }
+  input, button { font: inherit; }
+  input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); min-width: 0; }
+  input:focus { outline: 2px solid var(--red); outline-offset: -1px; border-color: transparent; }
+  .primary { padding: 12px 18px; border: 0; border-radius: 999px; background: var(--red); color: #fff; font-weight: 600; cursor: pointer; }
+  .primary:disabled { opacity: .6; }
+  #login-error { color: var(--red-dark); margin: 0; min-height: 1.4em; }
+  .cat { margin-top: 18px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+  .cat-head { display: flex; gap: 8px; margin-bottom: 6px; }
+  .cat-name { font: 600 1rem Montserrat, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: var(--red); }
+  .row { display: grid; grid-template-columns: 1fr 88px; gap: 6px; padding: 10px 0; border-top: 1px dashed var(--line); }
+  .row .desc { grid-column: 1 / -1; font-size: .9rem; }
+  .row.sold .name, .row.sold .price { text-decoration: line-through; color: var(--muted); }
+  .toggle { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); cursor: pointer; }
+  .toggle input { width: 20px; height: 20px; accent-color: var(--red); }
+  .del { justify-self: end; padding: 6px 10px; border: 0; background: none; color: var(--muted); font-size: .85rem; cursor: pointer; text-decoration: underline; }
+  .cat-head .del { white-space: nowrap; }
+  .add { width: 100%; margin-top: 6px; padding: 10px; border: 1.5px dashed var(--red); border-radius: 10px; background: none; color: var(--red); font-weight: 600; cursor: pointer; }
+  #add-cat { margin-top: 18px; background: #fff; }
+  #errors { margin: 16px 0 0; padding: 12px 14px 12px 32px; border-radius: 10px; background: #fff4f5; color: var(--red-dark); font-size: .9rem; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgb(0 0 0 / .06); }
+  #status { font-size: .88rem; color: var(--muted); }
+  #status.warn { color: var(--red-dark); font-weight: 600; }
+  #status.ok { color: #1e7a3c; font-weight: 600; }
+  .back { color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body id="admin">
+<header>
+  <div class="logo"><img src="rea.svg" alt="REA" width="1182" height="650"></div>
+  <p class="title">Menü Düzenle</p>
+</header>
+<main>
+  <p id="demo" hidden>Demo modu: örnek menü gösteriliyor, değişiklikler kaydedilmez.</p>
+
+  <form id="login" hidden>
+    <label for="password">Yönetim şifresi</label>
+    <input type="text" autocomplete="username" value="rea" hidden>
+    <input id="password" type="password" autocomplete="current-password" required>
+    <button class="primary">Giriş</button>
+    <p id="login-error" role="alert"></p>
+    <a class="back" href="yonetim.html">← Yönetim sayfası</a>
+  </form>
+
+  <div id="editor" hidden>
+    <ul id="errors" hidden role="alert"></ul>
+    <div id="cats"></div>
+    <button type="button" class="add" id="add-cat">+ Kategori ekle</button>
+    <div class="bar">
+      <span id="status" role="status">Değişiklik yok</span>
+      <button type="button" class="primary" id="save">Kaydet</button>
+    </div>
+  </div>
+</main>
+<script type="module" src="admin.js"></script>
+</body>
+</html>
