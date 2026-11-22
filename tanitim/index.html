@@ -50,12 +50,6 @@ ul.points span { color: var(--muted); font-size: 3.7mm; }
 .paper { width: 74mm; box-shadow: 0 3mm 9mm rgb(0 0 0 / .18); display: block; }
 .paper + .paper { margin-left: -14mm; transform: translateY(10mm); }
 
-/* adımlar */
-ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 7mm 12mm; }
-ol.steps li { counter-increment: s; padding: 6mm 6mm 6mm 18mm; position: relative; background: #fff; border: .3mm solid var(--line); border-radius: 3mm; }
-ol.steps li::before { content: counter(s); position: absolute; left: 5mm; top: 5mm; width: 9mm; height: 9mm; border-radius: 50%; background: var(--red); color: #fff; font: 700 5mm/9mm Fraunces; text-align: center; }
-ol.steps b { display: block; }
-ol.steps span { color: var(--muted); font-size: 3.6mm; }
 </style>
 </head>
 <body>
@@ -149,13 +143,8 @@ ol.steps span { color: var(--muted); font-size: 3.6mm; }
 <section class="page">
   <div class="text" style="padding-right: 22mm">
     <p class="kicker">Başlamak için</p>
-    <h2>Sizden istediklerimiz</h2>
-    <ol class="steps">
-      <li><b>Güncel menü</b><span>Ürünler, fiyatlar ve kategoriler. Menünün fotoğrafı da yeterli.</span></li>
-      <li><b>Logo dosyası</b><span>Varsa orijinal hali (PDF, SVG ya da yüksek çözünürlüklü PNG).</span></li>
-      <li><b>Bir Google hesabı</b><span>Menü tablosu sizin hesabınızda açılır, kontrol tamamen sizde kalır.</span></li>
-      <li><b>Masalar için QR kod</b><span>Menü yayına girince QR kodu yönetim sayfanızdan indirip bastırabilirsiniz.</span></li>
-    </ol>
+    <h2>Sizden tek istediğimiz:<br>logonuz</h2>
+    <p class="lead">Logonuzun orijinal dosyası (PDF, SVG ya da yüksek çözünürlüklü PNG) yeterli. Gerisini biz hazırlıyoruz.</p>
   </div>
   <p class="note">Görsellerdeki ürün ve fiyatlar örnektir.</p>
   <p class="pageno">6</p>
