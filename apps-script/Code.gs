@@ -15,7 +15,10 @@ function doPost(e) {
   }
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
-  if (req.action === "load") return json({ rows: sheet.getDataRange().getDisplayValues() });
+  if (req.action === "load") {
+    const rows = sheet.getDataRange().getDisplayValues();
+    return json({ rows, version: version(rows) });
+  }
 
   if (req.action === "save") {
     let rows;
@@ -24,6 +27,9 @@ function doPost(e) {
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
+      // Panel açıldıktan sonra başka cihazdan kaydedildiyse üstüne yazma; o değişiklik kaybolurdu
+      if (req.version !== version(sheet.getDataRange().getDisplayValues()))
+        return json({ error: "Menü başka bir yerden değişti. Sayfayı yenileyip tekrar deneyin." });
       // Önce yaz, sonra fazlalığı sil: yarıda kalan bir kayıt tabloyu boş bırakmaz.
       // "@" düz metin: "150,50" sayıya, "=..." formüle dönüşmesin
       sheet.getRange(1, 1, all.length, HEADER.length).setNumberFormat("@").setValues(all);
@@ -32,7 +38,7 @@ function doPost(e) {
     } finally {
       lock.releaseLock();
     }
-    return json({ ok: true, count: rows.length });
+    return json({ ok: true, version: version(sheet.getDataRange().getDisplayValues()) });
   }
 
   return json({ error: "Bilinmeyen işlem" });
@@ -47,6 +53,10 @@ function cleanRows(rows) {
       return v.trim();
     });
   });
+}
+
+function version(rows) {
+  return Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify(rows), Utilities.Charset.UTF_8));
 }
 
 function json(obj) {

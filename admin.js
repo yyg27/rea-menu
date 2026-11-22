@@ -1,22 +1,4 @@
-import { ADMIN_API_URL, key, isSoldOut, parseCSV } from "./menu.js";
-
-const COLS = ["kategori", "ürün", "açıklama", "fiyat", "aktif"];
-
-// Tablo satırları → panel. Eksik satırlar atılmaz (düzeltilsin diye), fiyat ham kalır.
-export function fromRows(rows) {
-  if (!rows.length) return [];
-  const head = rows[0].map(key);
-  const [cK, cU, cA, cF, cAk] = COLS.map(n => head.indexOf(key(n)));
-  const get = (r, c) => (c < 0 ? "" : (r[c] ?? "").trim());
-  const cats = new Map();
-  for (const r of rows.slice(1)) {
-    if (r.every(v => !v.trim())) continue;
-    const cat = get(r, cK) || "Diğer";
-    if (!cats.has(cat)) cats.set(cat, []);
-    cats.get(cat).push({ name: get(r, cU), desc: get(r, cA), price: get(r, cF), soldOut: isSoldOut(get(r, cAk)) });
-  }
-  return [...cats].map(([name, items]) => ({ name, items }));
-}
+import { ADMIN_API_URL, parseCSV, fromRows, h } from "./menu.js";
 
 // Panel → tablo satırları (başlıksız). Tamamen boş ürün satırları atılır.
 export function toRows(cats) {
@@ -43,13 +25,7 @@ export function validate(cats) {
 
 const $ = id => document.getElementById(id);
 const demo = !ADMIN_API_URL;
-let cats = [], password = "", dirty = false;
-
-function h(tag, props = {}, ...children) {
-  const e = Object.assign(document.createElement(tag), props); // value/textContent: içerik HTML olarak çalışmaz
-  e.append(...children);
-  return e;
-}
+let cats = [], password = "", version = "", dirty = false, edits = 0;
 
 function session(op, val) {
   try { return op === "get" ? sessionStorage.getItem("rea-admin") : sessionStorage.setItem("rea-admin", val); }
@@ -57,12 +33,16 @@ function session(op, val) {
 }
 
 async function api(body) {
-  let data;
+  let res, data;
   try {
-    const res = await fetch(ADMIN_API_URL, { method: "POST", body: JSON.stringify({ password, ...body }) });
-    data = await res.json();
+    res = await fetch(ADMIN_API_URL, { method: "POST", body: JSON.stringify({ password, ...body }) });
   } catch {
     throw new Error("Bağlantı kurulamadı, internetinizi kontrol edin.");
+  }
+  try {
+    data = await res.json();
+  } catch {
+    throw new Error("Sunucudan beklenmeyen cevap geldi. Apps Script kurulumunu kontrol edin."); // ör. erişim "Herkes" değil
   }
   if (data.error) throw new Error(data.error);
   return data;
@@ -70,6 +50,7 @@ async function api(body) {
 
 function changed() {
   dirty = true;
+  edits++;
   $("status").textContent = "Kaydedilmemiş değişiklikler var";
   $("status").className = "warn";
 }
@@ -112,7 +93,9 @@ async function load() {
     const res = await fetch("sample.csv", { cache: "no-store" });
     cats = fromRows(parseCSV(await res.text()));
   } else {
-    cats = fromRows((await api({ action: "load" })).rows);
+    const data = await api({ action: "load" });
+    cats = fromRows(data.rows);
+    version = data.version;
   }
   render();
   $("login").hidden = true;
@@ -132,8 +115,15 @@ async function save() {
   btn.disabled = true;
   $("status").textContent = "Kaydediliyor…";
   $("status").className = "";
+  const at = edits;
   try {
-    if (!demo) await api({ action: "save", rows: toRows(cats) });
+    if (!demo) version = (await api({ action: "save", rows: toRows(cats), version })).version;
+    if (edits !== at) {
+      // kayıt sürerken yazılanlar bu kayda girmedi
+      $("status").textContent = "Kaydedildi, ama sonradan yapılan değişiklikler var";
+      $("status").className = "warn";
+      return;
+    }
     dirty = false;
     $("status").textContent = demo ? "Demo: değişiklikler kaydedilmedi" : "Kaydedildi ✓ Menüye birkaç dakika içinde yansır.";
     $("status").className = "ok";

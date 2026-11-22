@@ -30,26 +30,27 @@ export function parseCSV(text) {
   return rows;
 }
 
-export function toMenu(rows) {
+// Tablo satırları → kategoriler (sıra korunur). Eksik satırlar atılmaz, panel düzeltsin diye; fiyat ham kalır.
+export function fromRows(rows) {
   if (!rows.length) return [];
   const head = rows[0].map(key);
-  const col = name => head.indexOf(name);
-  const [cK, cU, cA, cF, cAk] = ["kategori", "ürün", "açıklama", "fiyat", "aktif"].map(n => col(key(n)));
+  const [cK, cU, cA, cF, cAk] = ["kategori", "ürün", "açıklama", "fiyat", "aktif"].map(n => head.indexOf(key(n)));
   const get = (r, c) => (c < 0 ? "" : (r[c] ?? "").trim());
   const cats = new Map();
   for (const r of rows.slice(1)) {
-    const name = get(r, cU), price = get(r, cF);
-    if (!name || !price) continue;
+    if (r.every(v => !v.trim())) continue;
     const cat = get(r, cK) || "Diğer";
     if (!cats.has(cat)) cats.set(cat, []);
-    cats.get(cat).push({
-      name,
-      desc: get(r, cA),
-      price: /^[\d.,]+$/.test(price) ? price + " ₺" : price,
-      soldOut: isSoldOut(get(r, cAk)),
-    });
+    cats.get(cat).push({ name: get(r, cU), desc: get(r, cA), price: get(r, cF), soldOut: isSoldOut(get(r, cAk)) });
   }
   return [...cats].map(([name, items]) => ({ name, items }));
+}
+
+// Müşteriye gösterilecek menü: adı ya da fiyatı eksik ürün gösterilmez, rakam fiyata ₺ eklenir
+export function toMenu(rows) {
+  return fromRows(rows)
+    .map(c => ({ name: c.name, items: c.items.filter(i => i.name && i.price).map(i => ({ ...i, price: /^[\d.,]+$/.test(i.price) ? i.price + " ₺" : i.price })) }))
+    .filter(c => c.items.length);
 }
 
 // Kategori adına göre ikon; sıra önemli: "Soğuk Kahveler" kahveden önce soğuk olarak yakalanmalı
@@ -96,39 +97,28 @@ export function splitPages(menu, share = 0.45) {
   return [menu.slice(0, best), menu.slice(best)];
 }
 
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text) e.textContent = text; // textContent: Sheets içeriği HTML olarak çalışmasın
+// Öğe oluşturur; metin textContent/value ile girer, Sheets içeriği HTML olarak çalışmaz
+export function h(tag, props = {}, ...children) {
+  const e = Object.assign(document.createElement(tag), props);
+  e.append(...children);
   return e;
 }
 
 export function section(cat) {
-  const sec = el("section");
-  const h2 = el("h2");
-  h2.append(icon(cat.name), el("span", "", cat.name));
-  sec.append(h2);
-  for (const it of cat.items) {
-    const li = el("div", it.soldOut ? "item sold-out" : "item");
-    const row = el("div", "row");
-    row.append(el("span", "name", it.name), el("span", "dots"), el("span", "price", it.soldOut ? "Kalmadı" : it.price));
-    li.append(row);
-    if (it.desc) li.append(el("p", "desc", it.desc));
-    sec.append(li);
-  }
-  return sec;
+  return h("section", {}, h("h2", {}, icon(cat.name), h("span", { textContent: cat.name })),
+    ...cat.items.map(it => h("div", { className: it.soldOut ? "item sold-out" : "item" },
+      h("div", { className: "row" },
+        h("span", { className: "name", textContent: it.name }), h("span", { className: "dots" }),
+        h("span", { className: "price", textContent: it.soldOut ? "Kalmadı" : it.price })),
+      ...(it.desc ? [h("p", { className: "desc", textContent: it.desc })] : []))));
 }
 
 function render(menu) {
   const nav = document.getElementById("tabs"), main = document.getElementById("menu");
   nav.replaceChildren(); main.replaceChildren();
   menu.forEach((cat, i) => {
-    const a = el("a", "", cat.name);
-    a.href = "#k" + i;
-    nav.append(a);
-    const sec = section(cat);
-    sec.id = "k" + i;
-    main.append(sec);
+    nav.append(h("a", { href: "#k" + i, textContent: cat.name }));
+    main.append(Object.assign(section(cat), { id: "k" + i }));
   });
   // Kaydırırken o an okunan kategorinin butonu dolu kırmızı olur
   const links = [...nav.children], secs = [...main.children];
@@ -172,7 +162,7 @@ export async function getMenu() {
 async function load() {
   const menu = await getMenu();
   if (menu) return render(menu);
-  document.getElementById("menu").replaceChildren(el("p", "error", "Menü şu an yüklenemedi, lütfen biraz sonra tekrar deneyin."));
+  document.getElementById("menu").replaceChildren(h("p", { className: "error", textContent: "Menü şu an yüklenemedi, lütfen biraz sonra tekrar deneyin." }));
 }
 
 if (typeof document !== "undefined" && document.getElementById("tabs")) load();
