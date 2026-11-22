@@ -102,33 +102,18 @@ ol.steps span { color: var(--muted); font-size: 3.6mm; }
 
 <!-- 3. Siz güncellersiniz -->
 <section class="page">
-  <div class="text" style="flex: 0 0 150mm">
+  <div class="text">
     <p class="kicker">Menüyü siz yönetirsiniz</p>
-    <h2>Fiyat değişti mi?<br>Tabloda düzeltin, bitti.</h2>
-    <p class="lead">Menü bir Google Sheets tablosundan okunur. Telefonunuzdan ya da bilgisayardan değiştirdiğiniz her şey birkaç dakika içinde QR menüye yansır.</p>
+    <h2>Fiyat değişti mi?<br>Panelden düzeltin, bitti.</h2>
+    <p class="lead">Şifreyle girdiğiniz yönetim panelinden menünün her şeyini telefonunuzdan değiştirirsiniz. Kaydettiğiniz her şey birkaç dakika içinde QR menüye yansır.</p>
     <ul class="points">
-      <li><b>Kimseyi aramanıza gerek yok</b><span>Yeni ürün, yeni fiyat, yeni kategori: hepsi tablodan.</span></li>
-      <li><b>Ürün bitince "hayır" yazın</b><span>Menüde kalır, yanında "Kalmadı" yazar. Gelince "evet" yaparsınız.</span></li>
-      <li><b>Ek sunucu ya da uygulama gerekmez</b><span>Menü ücretsiz altyapıda çalışır, barındırma masrafı çıkmaz.</span></li>
+      <li><b>Kimseyi aramanıza gerek yok</b><span>Fiyat, yeni ürün, açıklama, yeni kategori: hepsi panelden.</span></li>
+      <li><b>Ürün bitince "Kalmadı"yı işaretleyin</b><span>Menüde kalır, fiyatın yerine "Kalmadı" yazar. Gelince işareti kaldırırsınız.</span></li>
+      <li><b>Veriler sizin hesabınızda</b><span>Menü kendi Google hesabınızda saklanır; ek sunucu, uygulama ya da barındırma masrafı yok.</span></li>
     </ul>
   </div>
-  <div class="visual" style="flex: 1; flex-direction: column; gap: 6mm">
-    <div class="sheet">
-      <div class="bar">REA Menü · Google Sheets</div>
-      <table>
-        <tr><th>kategori</th><th>ürün</th><th>fiyat</th><th>aktif</th></tr>
-        <tr><td>Sıcak Kahveler</td><td>Latte</td><td>120</td><td>evet</td></tr>
-        <tr><td>Soğuk İçecekler</td><td>Cold Brew</td><td>140</td><td>evet</td></tr>
-        <tr class="hl"><td>Soğuk İçecekler</td><td>Frozen Çilek</td><td>135</td><td class="edit">hayır</td></tr>
-        <tr><td>Tatlılar</td><td>San Sebastian</td><td>180</td><td>evet</td></tr>
-      </table>
-    </div>
-    <div class="arrow">↓</div>
-    <div class="sheet" style="width: 90mm; font-size: 3.6mm">
-      <table>
-        <tr><td style="color:var(--muted);text-decoration:line-through;border:0;padding:3mm 4mm">Frozen Çilek</td><td style="text-align:right;color:var(--muted);letter-spacing:.05em;border:0;padding:3mm 4mm;font-weight:600">KALMADI</td></tr>
-      </table>
-    </div>
+  <div class="visual">
+    <div class="phone"><div class="status"><span>9:41</span><i class="bat"></i></div><img src="img/phone-admin.png" alt=""></div>
   </div>
   <p class="pageno">3</p>
 </section>
@@ -140,7 +125,7 @@ ol.steps span { color: var(--muted); font-size: 3.6mm; }
     <h2>Her şey tek bir<br>sayfada</h2>
     <p class="lead">Size özel yönetim sayfasını telefonunuzun ana ekranına ekleyin; uygulama gibi tek dokunuşla açılır.</p>
     <ul class="points">
-      <li><b>Menüyü düzenle</b><span>Google Sheets tablonuz doğrudan açılır.</span></li>
+      <li><b>Menüyü düzenle</b><span>Şifreli panel: fiyat, ürün, kategori ve "Kalmadı".</span></li>
       <li><b>PDF menü al</b><span>Güncel fiyatlarla arkalı önlü menü, yazdırmaya hazır.</span></li>
       <li><b>QR kodu indir</b><span>Masa kartları ya da stantlar için baskıya hazır görsel.</span></li>
     </ul>
